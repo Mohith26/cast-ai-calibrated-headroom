@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>checkout-api · Workload autoscaler · Cast AI (concept: Calibrated headroom)</title>
+<link rel="icon" href="assets/castai-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="logo" title="Cast AI"><svg viewBox="40 36 120 128"><path fill="#051922" d="M150.937 69.052L128.849 49.91C121.228 43.304 111.664 40 102.104 40C92.544 40 82.9828 43.303 75.3572 49.911L54.3002 68.16C48.666 73.043 45.4341 80.127 45.4341 87.595V112.405C45.4341 119.873 48.666 126.957 54.3012 131.841L75.3582 150.089C82.7315 156.48 92.2299 160 102.104 160C111.978 160 121.477 156.481 128.85 150.09L150.938 130.948C154.779 127.618 156.324 122.286 154.873 117.362C154.186 115.031 152.757 112.875 150.741 111.128L144.894 106.061L135.401 114.289L142.418 120.38C142.641 120.573 142.768 120.853 142.768 121.148C142.768 121.443 142.641 121.724 142.417 121.917L120.753 140.692C115.438 145.298 108.769 147.602 102.104 147.602C95.4369 147.602 88.7716 145.299 83.4555 140.692L62.3975 122.443C59.4877 119.921 57.8184 116.261 57.8184 112.404V87.594C57.8184 83.736 59.4877 80.077 62.3975 77.555L83.4555 59.305C88.598 54.849 95.2205 52.395 102.104 52.395C108.988 52.395 115.611 54.849 120.753 59.306L142.447 78.107C142.669 78.3 142.798 78.58 142.798 78.876C142.798 79.172 142.67 79.452 142.447 79.645L102.104 114.607L85.2484 99.999L102.103 85.391L111.957 93.943L121.434 85.73L109.372 75.277C105.228 71.686 98.9789 71.686 94.8356 75.277L75.6414 91.912C73.296 93.944 71.9507 96.891 71.9507 100C71.9507 103.109 73.296 106.056 75.6404 108.087L94.8346 124.722C98.9789 128.314 105.228 128.315 109.372 124.722L150.741 88.869C152.757 87.122 154.186 84.966 154.872 82.635C156.322 77.713 154.777 72.381 150.937 69.051V69.052Z"/></svg></div>
+  <div class="tb-sep"></div>
+  <div class="crumb-chip"><span class="org-badge">LR</span>Larkspur Retail<i class="ti ti-chevron-down"></i></div>
+  <span class="slash">/</span>
+  <div class="crumb-chip"><span class="aws">aws</span><span id="clusterName">prod-us-east-1</span><i class="ti ti-chevron-down"></i></div>
+  <span class="slash">/</span>
+  <span class="crumb-page">Workload autoscaler</span>
+  <div class="tb-right">
+    <div class="tb-search"><i class="ti ti-search"></i>Search</div>
+    <button class="opspilot"><svg viewBox="0 0 20 20"><path fill="#417ae9" d="M2 3l7.2 7L2 17h3.6l5.4-5.2V8.2L5.6 3H2zm16 0h-3.6L9.6 7.6l1.8 1.8L18 3zm0 14l-6.6-6.4-1.8 1.8 4.8 4.6H18z"/></svg>OpsPilot</button>
+    <div class="icon-btn"><i class="ti ti-moon"></i></div>
+    <div class="icon-btn"><i class="ti ti-bell"></i></div>
+    <div class="icon-btn"><i class="ti ti-help-circle"></i></div>
+    <div class="avatar">MG</div>
+  </div>
+</header>
+
+<nav class="sidebar">
+  <div class="back"><i class="ti ti-arrow-left"></i>Back to all clusters</div>
+  <div class="nav-h">Cluster</div>
+  <div class="nav-i"><i class="ti ti-gauge"></i>Dashboard</div>
+  <div class="nav-i"><i class="ti ti-hexagon-letter-c"></i>Cost monitoring<i class="ti ti-chevron-down chev"></i></div>
+  <div class="nav-i"><i class="ti ti-file-text"></i>Logs</div>
+  <div class="nav-div"></div>
+  <div class="nav-h">Inventory</div>
+  <div class="nav-i"><i class="ti ti-server-2"></i>Nodes</div>
+  <div class="nav-i"><i class="ti ti-layout-grid"></i>Workloads</div>
+  <div class="nav-i"><i class="ti ti-folder"></i>Namespaces</div>
+  <div class="nav-i"><i class="ti ti-chart-bar"></i>Allocation groups</div>
+  <div class="nav-div"></div>
+  <div class="nav-h">Automation</div>
+  <div class="nav-i"><i class="ti ti-affiliate"></i>Overview</div>
+  <div class="nav-i open"><i class="ti ti-settings-automation"></i>Workload autoscaler<i class="ti ti-chevron-up chev"></i></div>
+  <div class="nav-sub">
+    <div class="nav-i active">Optimization</div>
+    <div class="nav-i">Impact</div>
+    <div class="nav-i">Scaling policies</div>
+    <div class="nav-i">Event log</div>
+  </div>
+  <div class="nav-i"><i class="ti ti-hexagons"></i>Node autoscaler</div>
+  <div class="nav-i"><i class="ti ti-rocket"></i>Bin-packing</div>
+  <div class="nav-i"><i class="ti ti-layout-dashboard"></i>Rebalancer</div>
+  <div class="nav-i"><i class="ti ti-adjustments-horizontal"></i>Pod mutations</div>
+</nav>
+
+<main class="main">
+  <div class="bc">Optimization <span>/</span> Workload:
+    <select id="wlSelect" aria-label="Workload"></select>
+  </div>
+  <div class="title-row">
+    <h1 id="wlName">checkout-api</h1>
+    <span class="kind" id="wlKind"></span>
+    <span class="sp"></span>
+    <span class="chip-ok"><i class="ti ti-circle-check"></i><span id="applied"></span></span>
+    <button class="btn-sec">Workload details<i class="ti ti-arrow-right"></i></button>
+  </div>
+
+  <div class="ctl">
+    <div class="field"><span class="lab">Workload optimization</span><span class="val"><span class="dot" style="background:var(--green-500)"></span>ON</span><span class="val"><span class="link"><i class="ti ti-pencil-off"></i>Override</span></span></div>
+    <i class="ti ti-link" style="color:var(--blue-500);font-size:16px"></i>
+    <div class="field" style="flex:1"><span class="lab">Scaling policy</span><span class="val" style="flex:1"><span class="dot" style="background:var(--blue-500)"></span>production-api<i class="ti ti-chevron-down" style="margin-left:auto;font-size:16px;color:var(--grey-600)"></i></span></div>
+  </div>
+
+  <div class="cards">
+    <div class="card c-sav" id="savCard"></div>
+    <div class="card new c-cal" id="calCard"></div>
+  </div>
+
+  <div class="tabs" id="mainTabs"><div class="on" data-t="charts">Charts</div><div data-t="settings">Settings</div><div data-t="events">Latest events</div></div>
+
+  <section id="tab-charts">
+    <div class="vo-row">
+      <h2>Vertical optimization</h2><span class="sp"></span>
+      <div class="sel"><span class="lab">Container selected:</span><span class="val" id="ctrName">app<i class="ti ti-chevron-down"></i></span></div>
+      <div class="sel"><span class="val"><i class="ti ti-calendar"></i><span id="rangeLbl">Replay: last 7 days</span><i class="ti ti-chevron-down"></i></span></div>
+    </div>
+    <div class="res-tabs" id="resTabs"><button class="on" data-r="cpu">CPU</button><button data-r="mem">Memory</button></div>
+    <div class="strat-tabs" id="stratTabs">
+      <button data-s="standard">Standard</button>
+      <button data-s="fixed">Predictive<i class="ti ti-wand"></i></button>
+      <button data-s="calibrated" class="on">Calibrated<span class="new-pill" style="margin-left:2px">New</span></button>
+    </div>
+    <div class="card chart-card" style="border-top-left-radius:0">
+      <div class="legend-row" id="legendRow"></div>
+      <div id="mainChart"></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><div class="mini-hd"><h3>Risk vs. requested capacity</h3><i class="ti ti-info-circle"></i></div>
+        <div class="mini-sub" id="frontierSub"></div>
+        <div class="inline-leg" id="frontierLeg"></div>
+        <div id="frontierChart"></div></div>
+      <div class="card"><div class="mini-hd"><h3>Rolling 24h miss rate</h3><i class="ti ti-info-circle"></i></div>
+        <div class="mini-sub" id="rollSub"></div>
+        <div class="inline-leg" id="rollLeg"></div>
+        <div id="rollChart"></div></div>
+    </div>
+  </section>
+
+  <section id="tab-settings" class="hidden"><div class="card set-card" id="settingsCard"></div></section>
+  <section id="tab-events" class="hidden"><div class="card" id="eventsCard"></div></section>
+
+  <div class="card table-card">
+    <div class="tc-hd"><h3>Calibrated headroom across policy <span style="color:var(--blue-500)">production-api</span></h3><span class="sp"></span><span class="sub" id="fleetNote"></span></div>
+    <div class="fleet-sum" id="fleetSum"></div>
+    <div class="count-row" id="countRow"></div>
+    <table id="fleetTable"></table>
+  </div>
+  <div class="footer">Unofficial concept demo by Mohith Gajjela. Not affiliated with Cast AI. Synthetic data (seeded generator in the repo); all numbers are computed in your browser from it.</div>
+</main>
+<div class="tip hidden" id="tip"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
