@@ -215,9 +215,12 @@ function renderCards() {
     <div><div class="k">Est. monthly savings, same risk <i class="ti ti-info-circle" title="Monthly cost of a percentile + 10% rule tuned to the same realized miss rate, minus calibrated, across ${w.pods} pods. $${H.PRICE.vcpuHour}/vCPU-h, $${H.PRICE.gibHour}/GiB-h."></i></div>
       <div class="metric ${save < 0 ? 'neg' : ''}">${money(save)}<small>/mo</small></div>
       <div class="bar"><i style="width:${Math.max(0, Math.min(100, red * 100)).toFixed(1)}%"></i></div>
-      <div class="pct-line"><b class="${save < 0 ? 'neg' : ''}">${pct(red)}</b><span class="sub">vs. tuned percentile</span></div></div>
+      <div class="pct-line"><b class="${save < 0 ? 'neg' : ''}">${pct(red)}</b><span class="sub">vs. tuned percentile</span></div>
+      <div style="display:flex;gap:22px;margin-top:14px"><div><div class="k">Calibrated req / pod</div><div class="mval">${fmtU(cpu.a.calibrated.meanReq, 'cpu')}<small>CPU</small></div></div>
+      <div><div class="k">Percentile @ ${pct(cpu.a.calibrated.missRate)} miss</div><div class="mval">${cpu.stdAtRisk ? fmtU(cpu.stdAtRisk, 'cpu') : 'n/a'}<small>CPU</small></div></div></div></div>
     <div class="vdiv"><div><div class="k">CPU difference / pod</div><div class="mval">${isNaN(dCpu) ? 'n/a' : arrow(dCpu) + Math.abs(dCpu / 1000).toFixed(3)}<small>CPU</small></div></div>
-      <div><div class="k">Memory difference / pod</div><div class="mval">${isNaN(dMem) ? 'n/a' : arrow(dMem) + Math.abs(dMem / 1024).toFixed(3)}<small>GiB</small></div></div></div>`;
+      <div><div class="k">Memory difference / pod</div><div class="mval">${isNaN(dMem) ? 'n/a' : arrow(dMem) + Math.abs(dMem / 1024).toFixed(3)}<small>GiB</small></div></div>
+      <div><div class="k">Pods</div><div class="mval">${w.pods}<small>replicas</small></div></div></div>`;
   const c = cur.a.calibrated; const last = c.alphaPath[c.alphaPath.length - 1];
   const fixedMiss = r === 'cpu' ? cur.a.fixed.missRate : cur.a.standard.missRate;
   $('calCard').innerHTML = `
@@ -322,6 +325,14 @@ async function boot() {
     if (state.tab === 'charts') renderAll();
   }));
   window.addEventListener('resize', () => { renderMain(); renderFrontier(); renderRolling(); });
+  // deep links, e.g. ?wl=10&res=mem&strat=standard&target=0.02&tab=settings
+  const q = new URLSearchParams(location.search);
+  if (q.has('wl')) state.wl = Math.max(0, Math.min(DATA.workloads.length - 1, Number(q.get('wl')) || 0));
+  if (q.get('res') === 'mem') state.res = 'mem';
+  if (['standard', 'fixed', 'calibrated'].includes(q.get('strat'))) state.strat = q.get('strat');
+  if (state.res === 'mem' && state.strat === 'fixed') state.strat = 'calibrated';
+  if (q.has('target') && TARGETS[state.res].includes(Number(q.get('target')))) state.target[state.res] = Number(q.get('target'));
   renderAll();
+  if (['settings', 'events'].includes(q.get('tab'))) document.querySelector(`#mainTabs div[data-t="${q.get('tab')}"]`).click();
 }
 boot();
